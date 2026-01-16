@@ -1,38 +1,47 @@
-import { NavLink } from "react-router-dom";
-import logo from "../assets/jnpa-logo.png";
+import { NavLink } from 'react-router-dom';
+// If you want to use the logo here as well, you can import it
+// import logo from '../assets/jnpa-logo.png';
 
-const navItems = [
-  { label: "Container Terminals", path: "/container-terminals" },
-  { label: "Vessel Report", path: "/vessel-report" },
-  { label: "Yard Inventory", path: "/yard-inventory" },
-  { label: "CFS Pendency", path: "/cfs-pendency" },
-  { label: "ICD Pendency", path: "/icd-pendency" },
-  { label: "Gate Movement", path: "/gate-movement" },
-];
+const Sidebar = () => {
+  const menuItems = [
+    { name: 'Container Terminals', path: '/' }, // Path '/' matches the index route
+    { name: 'Vessel Report', path: '/vessel-report' },
+    { name: 'Yard Inventory', path: '/yard-inventory' },
+    { name: 'CFS Pendency', path: '/cfs-pendency' },
+    { name: 'ICD Pendency', path: '/icd-pendency' },
+    { name: 'Gate Movement', path: '/gate-movement' },
+  ];
 
-export default function Sidebar() {
   return (
-    <aside className="w-64 bg-white shadow-lg p-4">
-      <div className="flex items-center gap-2 mb-8">
-        <img src={logo} alt="JNPA" className="w-10 h-10" />
-        <span className="font-semibold text-lg">JNPA</span>
-      </div>
+    <aside className="w-64 bg-white shadow-lg p-4 min-h-screen">
+      {/* Optional: Add Logo Section here if you remove it from DashboardLayout */}
+      {/* <div className="flex items-center gap-2 mb-8 px-2">
+        <img src={logo} alt="JNPA Logo" className="w-8 h-8" />
+        <span className="font-bold text-xl text-slate-800">JNPA</span>
+      </div> */}
 
-      {navItems.map(({ label, path }) => (
-        <NavLink
-          key={path}
-          to={path}
-          className={({ isActive }) =>
-            `block w-full px-4 py-2 rounded-lg mb-2 text-sm ${
-              isActive
-                ? "bg-blue-100 text-blue-700 font-medium"
-                : "bg-slate-50 hover:bg-blue-100"
-            }`
-          }
-        >
-          {label}
-        </NavLink>
-      ))}
+      <nav className="flex flex-col gap-1">
+        {menuItems.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            // 'end' ensures the home path doesn't stay highlighted when on other pages
+            end={item.path === '/'} 
+            className={({ isActive }) =>
+              `block px-4 py-2.5 rounded-lg text-sm transition-all duration-200 ${
+                isActive
+                  ? "bg-blue-100 text-blue-700 font-semibold shadow-sm"
+                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+              }`
+            }
+          >
+            {item.name}
+          </NavLink>
+        ))}
+      </nav>
     </aside>
   );
-}
+};
+
+// CRITICAL: This line fixes the "does not provide an export named 'default'" error
+export default Sidebar;
